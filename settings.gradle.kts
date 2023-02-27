@@ -5,6 +5,9 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+fun VersionCatalog.getLibrary(library: String) = findLibrary(library).get()
+
 enableFeaturePreview("VERSION_CATALOGS")
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
