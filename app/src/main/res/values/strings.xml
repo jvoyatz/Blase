@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Blasé</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_get_activity">Get Activity</string>
+    <string name="title_favorite_activities">Favorite Activities</string>
 </resources>

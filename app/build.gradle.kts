@@ -37,6 +37,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":features:getactivity"))
+    implementation(project(":features:favorite_activities"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.bundles.android.ui)
     implementation(libs.bundles.androidx.lifecycle)

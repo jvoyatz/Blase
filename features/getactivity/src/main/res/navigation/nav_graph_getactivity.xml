@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_get_activity"
+    app:startDestination="@id/getActivityFragment">
+
+    <fragment
+        android:id="@+id/getActivityFragment"
+        tools:layout="@layout/fragment_get_activity"
+        android:label="@string/get_activity"
+        android:name="gr.jvoyatz.blase.getactivity.GetActivityFragment"
+        />
+</navigation>
