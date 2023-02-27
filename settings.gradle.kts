@@ -20,3 +20,4 @@ rootProject.name = "Blasé"
 include(":app")
 include(":features:getactivity")
 include(":features:favorite_activities")
+include(":logging")
