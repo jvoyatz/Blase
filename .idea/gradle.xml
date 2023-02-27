@@ -12,10 +12,12 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/logging" />
+            <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/favorite_activities" />
             <option value="$PROJECT_DIR$/features/getactivity" />
-            <option value="$PROJECT_DIR$/logging" />
           </set>
         </option>
       </GradleProjectSettings>
