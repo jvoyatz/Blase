@@ -1,0 +1,16 @@
+[versions] # declare versions that are reference by plugins and libs
+androidGradlePlugin = "7.4.1"
+androidxCore = "1.8.0"
+kotlin = "1.8.0"
+
+[plugins] # define a set of plugins with versions
+
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
+[libraries] # define a set of libraryies with version
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
+
+[bundles] # combine multiple libs in a singel reference
+   #does not work for plugins
