@@ -1,16 +1,36 @@
 [versions] # declare versions that are reference by plugins and libs
 androidGradlePlugin = "7.4.1"
-androidxCore = "1.8.0"
 kotlin = "1.8.0"
+androidxCore = "1.9.0"
+androidxAppCompat = "1.6.1"
+androidMaterial = "1.8.0"
+androidxConstraint = "2.1.4"
+androidxLifecycle = "2.5.1"
+androidxNavigation = "2.5.3"
+junit = "4.13.2"
+androidxJunit = "1.1.5"
+androidxEspresso = "3.5.1"
 
 [plugins] # define a set of plugins with versions
-
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin"}
 
 [libraries] # define a set of libraryies with version
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat" , version.ref = "androidxAppCompat" }
+androidx-material = { module = "acom.google.android.material:material" , version.ref = "androidMaterial" }
+androidx-constraint = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidxConstraint"}
+androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
+androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidxNavigation"}
+androidx-navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidxNavigation"}
+junit = { module = "junit:junit", version.ref = "junit"}
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidxJunit"}
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxEspresso"}
 
-[bundles] # combine multiple libs in a singel reference
-   #does not work for plugins
+[bundles] # combine multiple libs in a singel reference #does not work for plugins
+androidx-navigation = ["androidx-navigation-fragment", "androidx-navigation-ui"]
+androidx-lifecycle = ["androidx-lifecycle-livedata", "androidx-lifecycle-viewmodel"]
+android-ui = ["androidx-appcompat", "androidx-material", "androidx-constraint"]
+testing = ["junit", "androidx-junit", "androidx-espresso-core"]
