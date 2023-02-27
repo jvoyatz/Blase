@@ -4,17 +4,17 @@ plugins {
 }
 
 android {
-    namespace = "gr.jvoyatz.blase"
-    compileSdk = 33
+    namespace = AppConfig.packageName
+    compileSdk = AppConfig.compileSdk
 
     defaultConfig {
-        applicationId = "gr.jvoyatz.blase"
-        minSdk = 26
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = AppConfig.packageName
+        minSdk = AppConfig.minSdk
+        targetSdk = AppConfig.targetSdk
+        versionCode = AppConfig.versionCode
+        versionName = AppConfig.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = AppConfig.androidTestInstrumentation
     }
 
     buildTypes {
