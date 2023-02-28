@@ -20,7 +20,7 @@ interface BoredActivityRepository {
     /**
      * Deletes an already stored activity
      */
-    suspend fun deleteActivity()
+    suspend fun deleteActivity(key: String)
 
     /**
      * Checks whether the activity with this key

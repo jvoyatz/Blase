@@ -1,5 +1,6 @@
 package gr.jvoyatz.blase.domain.usecases
 
+import gr.jvoyatz.blase.domain.repositories.BoredActivityRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -9,9 +10,22 @@ import javax.inject.Singleton
  */
 @Singleton
 class ActivitiesUseCasesFacade @Inject constructor(
-    val getRandomActivity: GetRandomActivity,
-    getFavoriteActivities: GetFavoriteActivities,
-    isActivitySaved: IsActivitySaved,
-    saveActivity: SaveActivity,
-    deleteActivity: DeleteActivity
-)
+    activityRepository: BoredActivityRepository
+){
+    val getRandomActivity: GetRandomActivity
+    val getFavoriteActivities: GetFavoriteActivities
+    val isActivitySaved: IsActivitySaved
+    val saveActivity: SaveActivity
+    val deleteActivity: DeleteActivity
+    init {
+        getRandomActivity = GetRandomActivity(activityRepository::getNewActivity)
+        deleteActivity = DeleteActivity(activityRepository::deleteActivity)
+        getFavoriteActivities = GetFavoriteActivities {
+            activityRepository.getFavoriteActivities()
+        }
+        isActivitySaved = IsActivitySaved {
+            activityRepository.isActivitySaved(it)
+        }
+        saveActivity = SaveActivity(activityRepository::saveActivity)
+    }
+}

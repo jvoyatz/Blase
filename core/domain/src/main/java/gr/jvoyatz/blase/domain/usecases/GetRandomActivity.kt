@@ -7,6 +7,4 @@ import gr.jvoyatz.blase.core.models.TestTest
  *
  * Note: OOP way of implementing a use case
  */
-interface GetRandomActivity {
-     operator fun invoke():TestTest
-}
+fun interface GetRandomActivity: suspend () -> Unit
