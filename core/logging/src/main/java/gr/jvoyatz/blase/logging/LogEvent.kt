@@ -3,12 +3,12 @@ package gr.jvoyatz.blase.logging
 import TimberLogger
 import timber.log.Timber
 
-object Logger {
+object LogEvent {
     private val logger by lazy {
         TimberLogger()
     }
 
-    init {
+    fun init() {
         Timber.plant(logger)
     }
 

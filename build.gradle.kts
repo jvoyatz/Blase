@@ -4,4 +4,5 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.android) apply false
     id("org.jetbrains.kotlin.jvm") version "1.8.0" apply false
+    alias(libs.plugins.hilt) apply false
 }

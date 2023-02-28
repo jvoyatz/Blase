@@ -1,7 +1,11 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
+    kotlin("kapt")
 }
 
 android {
@@ -40,9 +44,18 @@ android {
 dependencies {
     implementation(project(":features:getactivity"))
     implementation(project(":features:favorite_activities"))
+    implementation(project(":core:logging"))
+    implementation(project(":core:domain"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.bundles.android.ui)
     implementation(libs.bundles.androidx.lifecycle)
     implementation(libs.bundles.androidx.navigation)
     implementation(libs.bundles.testing)
+    implementation(libs.google.hilt)
+    kapt(libs.google.hilt.compiler)
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }

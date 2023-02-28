@@ -23,3 +23,4 @@
  * We write less code, we are consistent and no changes are needed
  * when something is being changed in the repository
  */
+package gr.jvoyatz.blase.domain.usecases;

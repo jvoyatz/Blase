@@ -8,14 +8,24 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import gr.jvoyatz.blase.databinding.ActivityMainBinding
+import gr.jvoyatz.blase.domain.usecases.ActivitiesUseCasesFacade
+import gr.jvoyatz.blase.logging.LogEvent
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    @Inject
+    lateinit var useCases: ActivitiesUseCasesFacade
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        LogEvent.d("usecases are $useCases")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
