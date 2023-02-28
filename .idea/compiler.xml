@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.7" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="Blasé.buildSrc" target="11" />
+      <module name="Blasé.buildSrc.main" target="11" />
+      <module name="Blasé.buildSrc.test" target="11" />
+      <module name="Blasé.common" target="11" />
+      <module name="Blasé.core.usecases" target="1.8" />
+      <module name="Blasé.core.usecases.main" target="1.8" />
+      <module name="Blasé.core.usecases.test" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

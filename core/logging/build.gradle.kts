@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-    namespace = AppConfig.packageName + ".logging"
-    compileSdk = AppConfig.compileSdk
+    namespace = libs.versions.packageName.get() + ".logging"
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = AppConfig.minSdk
-        targetSdk = AppConfig.targetSdk
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
     }
 }
 
