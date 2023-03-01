@@ -10,6 +10,7 @@
       <module name="Blasé.core.usecases" target="1.8" />
       <module name="Blasé.core.usecases.main" target="1.8" />
       <module name="Blasé.core.usecases.test" target="1.8" />
+      <module name="Blasé.data.activities.db-source" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

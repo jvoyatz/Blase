@@ -38,6 +38,7 @@ dependencies {
     implementation(project(":features:favorite_activities"))
     implementation(project(":core:logging"))
     implementation(project(":core:domain"))
+    implementation(project(":data:activities:repo"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.bundles.android.ui)
     implementation(libs.bundles.androidx.lifecycle)

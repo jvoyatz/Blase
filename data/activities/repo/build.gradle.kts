@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "${libs.versions.packageName}.data.activities.repo"
+    namespace = "${libs.versions.packageName.get()}.data.activities.repo"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -27,8 +27,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:network:v1"))
     implementation(project(":data:activities:net-source"))
-    implementation(project(":data:activities:db-source"))
+    //implementation(project(":data:activities:db-source"))
     implementation(project(":core:domain"))
     implementation(project(":core:logging"))
 

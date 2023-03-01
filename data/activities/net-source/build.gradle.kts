@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "${libs.versions.packageName}.data.activities.repo.network"
+    namespace = "${libs.versions.packageName.get()}.data.activities.repo.network"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -27,6 +27,7 @@ android {
 
 dependencies {
     implementation(project(":core:logging"))
+    implementation(project(":core:network:v1"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.google.hilt)
@@ -34,8 +35,7 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.moshi)
-    implementation(libs.okhttp.interceptor)
 
     //testing
-    implementation(libs.okhttp.mockserver)
+   // implementation(libs.okhttp.mockserver)
 }

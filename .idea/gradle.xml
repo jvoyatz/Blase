@@ -20,7 +20,6 @@
             <option value="$PROJECT_DIR$/core/network/v1" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/activities" />
-            <option value="$PROJECT_DIR$/data/activities/db-source" />
             <option value="$PROJECT_DIR$/data/activities/net-source" />
             <option value="$PROJECT_DIR$/data/activities/repo" />
             <option value="$PROJECT_DIR$/features" />

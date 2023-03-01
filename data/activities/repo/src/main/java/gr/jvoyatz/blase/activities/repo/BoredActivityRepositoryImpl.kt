@@ -1,16 +1,17 @@
 package gr.jvoyatz.blase.activities.repo
 
-import gr.jvoyatz.blase.activities.database.ActivityDbSource
-import gr.jvoyatz.blase.activities.network.ActivityNetworkSource
+import gr.jvoyatz.blase.activities.network.BoredApiClient
 import gr.jvoyatz.blase.domain.repositories.BoredActivityRepository
 import gr.jvoyatz.blase.logging.LogEvent
 
 class BoredActivityRepositoryImpl(
-    private val apiSource: ActivityNetworkSource,
-    private val dbSource: ActivityDbSource
+    private val apiClient: BoredApiClient,
+    //private val dbSource: ActivityDbSource
 ):BoredActivityRepository{
     override suspend fun getNewActivity() {
-        LogEvent.d("fetching new activity")
+        LogEvent.d("fetching new activity, thread is ${Thread.currentThread()}")
+
+        println(apiClient.getRandomActivity())
     }
 
     override suspend fun saveActivity() {
