@@ -16,4 +16,5 @@ android {
 
 dependencies {
     implementation(libs.timber)
+    implementation("androidx.core:core-ktx:+")
 }

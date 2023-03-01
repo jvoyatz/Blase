@@ -16,6 +16,8 @@
             <option value="$PROJECT_DIR$/core/logging" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/activities" />
+            <option value="$PROJECT_DIR$/data/activities/database" />
+            <option value="$PROJECT_DIR$/data/activities/network" />
             <option value="$PROJECT_DIR$/data/activities/repo" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/favorite_activities" />

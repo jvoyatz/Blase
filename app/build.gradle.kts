@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
@@ -52,6 +51,7 @@ dependencies {
     implementation(libs.bundles.androidx.navigation)
     implementation(libs.bundles.testing)
     implementation(libs.google.hilt)
+    implementation("androidx.core:core-ktx:+")
     kapt(libs.google.hilt.compiler)
 }
 

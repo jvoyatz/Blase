@@ -32,7 +32,7 @@ timber = "5.0.1"
 [plugins] # define a set of plugins with versions
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin"}
+kotlin-android = { id = "org.jetbrains.kotlin.android", version = "1.8.20-Beta" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 
 [libraries] # define a set of libraryies with version
