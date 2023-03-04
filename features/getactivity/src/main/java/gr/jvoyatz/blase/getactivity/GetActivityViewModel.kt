@@ -10,6 +10,8 @@ import gr.jvoyatz.blase.getactivity.GetActivityUiState.InternalUiState
 import gr.jvoyatz.blase.logging.LogEvent
 import gr.jvoyatz.core.common.onError
 import gr.jvoyatz.core.common.onSuccess
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,27 +20,23 @@ private const val SAVED_GET_ACTIVITY_UI_STATE = "savedActivityUiState"
 
 @HiltViewModel
 class GetActivityViewModel @Inject constructor(
-    private val useCasesFacade: ActivitiesUseCasesFacade,
-    private val initUiState: GetActivityUiState,
+    useCasesFacade: ActivitiesUseCasesFacade,
+    initUiState: GetActivityUiState,
     private val savedStateHandle: SavedStateHandle
 ): ViewModel(){
 
     private val userIntentFlow = MutableSharedFlow<ActivitiesIntent>()
-
     private val getRandomActivity: GetRandomActivityUseCase = useCasesFacade.getRandomActivity
     val uiState = savedStateHandle.getStateFlow(SAVED_GET_ACTIVITY_UI_STATE, initUiState)
 
     init {
-        LogEvent.d("init block 1, setting flow observation")
         viewModelScope.launch {
             userIntentFlow.flatMapMerge {
-                LogEvent.i("received a new intent --> [$it]")
-                executeIntent(it)
+                mapIntentToUseCase(it)
             }
-            .runningFold(uiState.value, ::foldUiState)
-            .catch { LogEvent.e(it, "an exception occurred!!") }
+            .scan(uiState.value, ::mapInternalUiStateToExternal)
+            .catch { }
             .collect {
-                LogEvent.i("collected the new ui state --> $it")
                 savedStateHandle[SAVED_GET_ACTIVITY_UI_STATE] = it
             }
         }
@@ -61,18 +59,25 @@ class GetActivityViewModel @Inject constructor(
 //        }
     }
 
-
     init {
-        LogEvent.d("init block 2, init intent")
-        onUserIntent(ActivitiesIntent.GetActivity)
+        viewModelScope.launch {
+            delay(250)
+            onUserIntent(ActivitiesIntent.GetActivity)
+        }
     }
+
     /**
      * Attempts to fetch a new activity, and after parsing the returned object
      * emits the new (internal) ui state for this intent.
      */
     private fun getNewActivity(): Flow<InternalUiState> = flow {
-        getRandomActivity().onStart { emit(InternalUiState.Loading) }
+        getRandomActivity()
+            .onStart {
+                LogEvent.d("onstart called")
+                emit(InternalUiState.Loading)
+            }
             .collect {
+                LogEvent.logThread()
                 it.onSuccess { activity ->
                     emit(InternalUiState.OnNewActivityFetched(activity))
                 }
@@ -80,13 +85,13 @@ class GetActivityViewModel @Inject constructor(
                     emit(InternalUiState.Error(_e))
                 }
             }
-    }
+    }.flowOn(Dispatchers.Default)
 
     /**
      * Receives the intent of the user and maps it to the corresponding
      * use case.
      */
-    private fun executeIntent(intent: ActivitiesIntent): Flow<InternalUiState>{
+    private fun mapIntentToUseCase(intent: ActivitiesIntent): Flow<InternalUiState>{
         return when(intent){
             is ActivitiesIntent.GetActivity -> getNewActivity()
             else -> emptyFlow() //do nothing here for now
@@ -97,13 +102,13 @@ class GetActivityViewModel @Inject constructor(
      * Parses the result received for the user's intent and maps it,
      * into a new GetActivityUiState
      */
-    private fun foldUiState(currentUiState: GetActivityUiState, internalUiState: InternalUiState) =
-        when(internalUiState){
+    private fun mapInternalUiStateToExternal(currentUiState: GetActivityUiState, internalUiState: InternalUiState):GetActivityUiState {
+       return when (internalUiState) {
             is InternalUiState.OnNewActivityFetched -> {
                 currentUiState.copy(
                     isLoading = false,
                     isError = false,
-                    newActivity = internalUiState.boredActivity
+                    newActivity = internalUiState.boredActivity.toUiModel()
                 )
             }
             is InternalUiState.Error -> {
@@ -120,8 +125,12 @@ class GetActivityViewModel @Inject constructor(
                     newActivity = null
                 )
             }
+        }
     }
 
+    /**
+     * Receives an intent which represents a user action
+     */
     fun onUserIntent(intent: ActivitiesIntent){
         viewModelScope.launch {
             userIntentFlow.emit(intent)

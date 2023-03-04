@@ -7,4 +7,6 @@ import retrofit2.http.GET
 interface BoredApiService {
     @GET("activity")
     suspend fun getRandomActivity(): Response<BoredActivityDto>
+
+    suspend fun getRandomActivity2(): BoredActivityDto
 }

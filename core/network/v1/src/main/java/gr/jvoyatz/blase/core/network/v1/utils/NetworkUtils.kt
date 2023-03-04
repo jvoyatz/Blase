@@ -13,7 +13,7 @@ import retrofit2.Response
  * A downside using this functions is that you need to include it in every repository.
  * It could be reused (and improved) by using a retrofit call adapter
  */
-suspend fun <T: Any> safeApiCall(execute: suspend () -> Response<T>): ApiResponse<T> {
+suspend fun <T: Any> safeSuspendableApiCall(execute: suspend () -> Response<T>): ApiResponse<T> {
     return try {
         val response = execute()
         val body = response.body()
@@ -27,6 +27,25 @@ suspend fun <T: Any> safeApiCall(execute: suspend () -> Response<T>): ApiRespons
         }
     }catch (e: HttpException){
       ApiResponse.ApiError(e.code(), e.message)
+    } catch (e: Throwable){
+        ApiResponse.ApiException(e)
+    }
+}
+
+/*suspend*/ fun <T: Any> safeApiCall(execute: /*suspend*/ () -> Response<T>): ApiResponse<T> {
+    return try {
+        val response = execute()
+        val body = response.body()
+
+        if(response.isSuccessful && body != null){
+            ApiResponse.ApiSuccess(body)
+        }else if(response.isSuccessful){
+            ApiResponse.ApiSuccessEmpty()
+        }else{
+            ApiResponse.ApiError(response.code(), response.message())
+        }
+    }catch (e: HttpException){
+        ApiResponse.ApiError(e.code(), e.message)
     } catch (e: Throwable){
         ApiResponse.ApiException(e)
     }

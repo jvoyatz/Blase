@@ -41,5 +41,9 @@ class GetActivityFragment : Fragment() {
                 }
             }
         }
+
+        if(savedInstanceState == null) {
+           // viewModel.onUserIntent(ActivitiesIntent.GetActivity)
+        }
     }
 }

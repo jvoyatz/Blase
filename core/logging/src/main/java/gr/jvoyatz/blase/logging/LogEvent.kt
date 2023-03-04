@@ -20,5 +20,5 @@ object LogEvent {
 
     fun wtf(t: Throwable? = null, message: String) = logger.wtf(t, message)
 
-    fun logThread() = logger.i("Current thread --> ${Thread.currentThread()}")
+    fun logThread() = logger.w("Current thread --> ${Thread.currentThread()}")
 }
