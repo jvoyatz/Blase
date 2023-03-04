@@ -15,25 +15,29 @@ android {
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
+        buildConfigField("String", "BORED_API_URL", "\"https://www.boredapi.com/api/\"")
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
 
 dependencies {
-    implementation(project(":core:network:v1"))
-    implementation(project(":data:activities:net-source"))
-    //implementation(project(":data:activities:db-source"))
-    implementation(project(":core:domain"))
+    //modules
+    implementation(project(":core:common"))
     implementation(project(":core:logging"))
-
+    implementation(project(":core:domain"))
+    implementation(project(":core:network:v1"))
+    //dagger-hilt
     implementation(libs.androidx.core.ktx)
     implementation(libs.google.hilt)
     kapt(libs.google.hilt.compiler)
+    //retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.moshi)
 }

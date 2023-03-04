@@ -1,5 +1,7 @@
 package gr.jvoyatz.blase.domain.repositories
 
+import gr.jvoyatz.blase.domain.models.BoredActivity
+
 /**
  * Interface defining the set of methods for
  * interacting with bored api remote service as well as
@@ -10,7 +12,7 @@ interface BoredActivityRepository {
     /**
      * Fetches a new activity from the remote service
      */
-    suspend fun getNewActivity()
+    suspend fun getNewActivity(): kotlinx.coroutines.flow.Flow<BoredActivity>
 
     /**
      * Saves a fetched activity into the local database

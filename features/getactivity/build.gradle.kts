@@ -1,30 +1,30 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.hilt)
 }
 
 android {
-    namespace = "gr.jvoyatz.blase.getactivity"
-    compileSdk = 33
+    namespace = libs.versions.packageName.get() + ".feature.getactivity"
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 26
-        targetSdk = 33
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
     }
 }
 
 dependencies {
+    implementation(project(":core:common"))
+    implementation(project(":core:logging"))
     implementation(project(":core:domain"))
+    implementation(project(":data:activities:repo"))
+
+
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
@@ -34,4 +34,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation(libs.bundles.androidx.navigation)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.google.hilt)
+    kapt(libs.google.hilt.compiler)
 }

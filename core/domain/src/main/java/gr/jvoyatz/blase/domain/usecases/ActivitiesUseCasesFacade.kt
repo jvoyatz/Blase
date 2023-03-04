@@ -12,13 +12,15 @@ import javax.inject.Singleton
 class ActivitiesUseCasesFacade @Inject constructor(
     activityRepository: BoredActivityRepository
 ){
-    val getRandomActivity: GetRandomActivity
+    val getRandomActivity: GetRandomActivityUseCase
     val getFavoriteActivities: GetFavoriteActivities
     val isActivitySaved: IsActivitySaved
     val saveActivity: SaveActivity
     val deleteActivity: DeleteActivity
     init {
-        getRandomActivity = GetRandomActivity(activityRepository::getNewActivity)
+        getRandomActivity = GetRandomActivityUseCase {
+            getRandomActivity(activityRepository)
+        }
         deleteActivity = DeleteActivity(activityRepository::deleteActivity)
         getFavoriteActivities = GetFavoriteActivities {
             activityRepository.getFavoriteActivities()

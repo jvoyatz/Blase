@@ -22,11 +22,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
     buildFeatures {
         viewBinding = true
@@ -36,6 +36,7 @@ android {
 dependencies {
     implementation(project(":features:getactivity"))
     implementation(project(":features:favorite_activities"))
+    implementation(project(":core:common"))
     implementation(project(":core:logging"))
     implementation(project(":core:domain"))
     implementation(project(":data:activities:repo"))

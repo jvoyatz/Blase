@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import gr.jvoyatz.blase.activities.network.BoredApiClient
+import gr.jvoyatz.blase.activities.repo.datasources.network.BoredApiClient
 import gr.jvoyatz.blase.activities.repo.BoredActivityRepositoryImpl
 import gr.jvoyatz.blase.domain.repositories.BoredActivityRepository
 import javax.inject.Singleton
