@@ -35,12 +35,6 @@ class ApiModule {
         return retrofit.create(BoredApiService::class.java)
     }
 
-//    @Singleton
-//    @Provides
-//    fun provideBoredApiClient(boredApiService: BoredApiService): BoredApiClient {
-//        return BoredApiClientImpl(boredApiService)
-//    }
-
     @Module
     @InstallIn(SingletonComponent::class)
     abstract class ApiBindsModule{

@@ -11,7 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import gr.jvoyatz.blase.feature.getactivity.R
-import gr.jvoyatz.blase.logging.LogEvent
+import gr.jvoyatz.blase.getactivity.ui.GetActivityIntents
+import gr.jvoyatz.blase.getactivity.ui.state.getOrNull
 import kotlinx.coroutines.launch
 
 
@@ -39,7 +40,7 @@ class GetActivityFragment : Fragment() {
                 viewModel.uiState.collect{
                     viewModel.uiState.value.getOrNull()?.let {
                         viewModel.onUserIntent(
-                            ActivitiesIntent.FavoriteActivity(it)
+                            GetActivityIntents.FavoriteActivity(it.boredActivityUiModel)
                         )
                     }
                 }

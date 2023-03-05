@@ -1,4 +1,4 @@
-package gr.jvoyatz.blase.getactivity
+package gr.jvoyatz.blase.getactivity.ui.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

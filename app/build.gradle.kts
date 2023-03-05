@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
@@ -46,9 +45,10 @@ dependencies {
     implementation(project(":features:getactivity"))
     implementation(project(":features:favorite_activities"))
     implementation(project(":core:common"))
-    implementation(project(":core:logging"))
+    //implementation(project(":core:logging"))
     implementation(project(":core:domain"))
     implementation(project(":data:activities:repo"))
+    implementation(libs.timber)
     implementation(libs.androidx.core.ktx)
     implementation(libs.bundles.android.ui)
     implementation(libs.bundles.androidx.lifecycle)

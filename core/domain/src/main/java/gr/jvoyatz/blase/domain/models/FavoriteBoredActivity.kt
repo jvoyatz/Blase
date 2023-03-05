@@ -1,6 +1,6 @@
 package gr.jvoyatz.blase.domain.models
 
-class FavoriteBoredActivity(
+data class FavoriteBoredActivity(
     val isFavorite: Boolean,
     val boredActivity: BoredActivity
 )

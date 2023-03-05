@@ -4,17 +4,17 @@ import com.squareup.moshi.Json
 
 data class BoredActivityDto(
     @Json(name = "accessibility")
-    val accessibility: Double = 0.0,
+    val accessibility: Double,
     @Json(name = "activity")
-    val activity: String = "",
+    val activity: String,
     @Json(name = "key")
-    val key: Long = 0,
+    val key: Long,
     @Json(name = "link")
     val link: String = "",
     @Json(name = "participants")
-    val participants: Int = 0,
+    val participants: Int,
     @Json(name = "price")
-    val price: Double = 0.0,
+    val price: Double,
     @Json(name = "type")
-    val type: String = ""
+    val type: String
 )

@@ -1,6 +1,12 @@
 package gr.jvoyatz.blase.domain.usecases
 
 import gr.jvoyatz.blase.domain.repositories.BoredActivityRepository
+import gr.jvoyatz.core.common.ResultWrapper
+import gr.jvoyatz.core.common.resultOf
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,21 +22,25 @@ class ActivitiesUseCasesFacade @Inject constructor(
     val getFavoriteActivities: GetFavoriteActivitiesUseCase
     val isActivitySaved: IsActivitySaved
     val saveActivity: SaveActivity
-    val deleteActivity: DeleteActivity
+    val deleteActivity: DeleteActivityUseCase
     init {
         getRandomActivity = GetRandomActivityUseCase {
             getRandomActivity(activityRepository)
         }
-        deleteActivity = DeleteActivity(activityRepository::deleteActivity)
+        deleteActivity = deleteBoredActivity(activityRepository)
+
         getFavoriteActivities = GetFavoriteActivitiesUseCase {
             getFavoriteActivities(activityRepository)
         }
         isActivitySaved = IsActivitySaved {
-            activityRepository.isActivitySaved(it)
+            flow<ResultWrapper<Boolean>> {
+                resultOf {
+                    emit(ResultWrapper.success(activityRepository.isActivitySaved(it)))
+                }
+            }
+            .catch { emit(ResultWrapper.error(it)) }
+            .flowOn(Dispatchers.Default)
         }
-//        saveActivity = SaveActivity{
-//            saveBoredActivity(activityRepository)
-//        }
 
         saveActivity = SaveActivityImpl(activityRepository)
     }

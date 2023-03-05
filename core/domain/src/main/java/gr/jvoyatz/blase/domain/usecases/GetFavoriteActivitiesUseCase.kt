@@ -17,10 +17,7 @@ fun interface GetFavoriteActivitiesUseCase: suspend () -> Flow<ResultWrapper<Lis
 suspend fun getFavoriteActivities(repository: BoredActivityRepository): Flow<ResultWrapper<List<BoredActivity>>> {
     return repository.getFavoriteActivities()
         .map {
-            println(it)
-            val result = resultOf { it }
-            println(result)
-            result
+            resultOf { it }
         }
         .catch {
             emit(ResultWrapper.error(it))

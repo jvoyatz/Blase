@@ -1,5 +1,4 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -20,7 +19,7 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-    implementation(project(":core:logging"))
+    //implementation(project(":core:logging"))
     implementation(project(":core:domain"))
     implementation(project(":data:activities:repo"))
 
@@ -33,6 +32,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    implementation(libs.timber)
     implementation(libs.bundles.androidx.navigation)
     implementation(libs.androidx.core.ktx)
     implementation(libs.google.hilt)

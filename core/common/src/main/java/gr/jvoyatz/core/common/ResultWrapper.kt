@@ -71,10 +71,9 @@ fun <T> Flow<T>.asResult(): Flow<ResultWrapper<T>> {
 
 
 /**
- * Like [runCatching], but with proper coroutines cancellation handling.
- * Also only catches [Exception] instead of [Throwable].
+ * Better management of exceptions when using coroutines.
  *
- * Cancellation exceptions need to be rethrown. See https://github.com/Kotlin/kotlinx.coroutines/issues/1814.
+ * See https://github.com/Kotlin/kotlinx.coroutines/issues/1814.
  */
 inline fun <R> resultOf(block: () -> R): ResultWrapper<R> {
     return try {

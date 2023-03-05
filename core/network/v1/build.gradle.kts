@@ -16,7 +16,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:logging"))
+    //implementation(project(":core:logging"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.google.hilt)
@@ -27,4 +27,6 @@ dependencies {
     implementation(libs.okhttp.interceptor)
     implementation(libs.moshi.codegen)
     implementation(libs.moshi)
+
+    implementation(libs.timber)
 }

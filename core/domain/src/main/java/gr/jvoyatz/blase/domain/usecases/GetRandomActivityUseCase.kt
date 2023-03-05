@@ -1,9 +1,9 @@
 package gr.jvoyatz.blase.domain.usecases
 
+import gr.jvoyatz.blase.domain.models.FavoriteBoredActivity
+import gr.jvoyatz.blase.domain.repositories.BoredActivityRepository
 import gr.jvoyatz.core.common.ResultWrapper
 import gr.jvoyatz.core.common.resultOf
-import gr.jvoyatz.blase.domain.models.BoredActivity
-import gr.jvoyatz.blase.domain.repositories.BoredActivityRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -13,16 +13,13 @@ import kotlinx.coroutines.flow.map
  *
  * Note: OOP way of implementing a use case
  */
-fun interface GetRandomActivityUseCase: suspend () -> Flow<ResultWrapper<BoredActivity>>
+fun interface GetRandomActivityUseCase: suspend () -> Flow<ResultWrapper<FavoriteBoredActivity>>
 
 
-suspend fun getRandomActivity(repository: BoredActivityRepository): Flow<ResultWrapper<BoredActivity>> {
+suspend fun getRandomActivity(repository: BoredActivityRepository): Flow<ResultWrapper<FavoriteBoredActivity>> {
     return repository.getNewActivity()
         .map {
-            println(it)
-            val result = resultOf { it }
-            println(result)
-            result
+            resultOf { it }
         }
         .catch {
             emit(ResultWrapper.error(it))

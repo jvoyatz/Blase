@@ -10,11 +10,11 @@ interface BoredActivityDao {
     fun getActivities(): Flow<List<BoredActivityEntity>>
 
     @Insert
-    fun saveActivity(activityEntity: BoredActivityEntity)
+    suspend fun saveActivity(activityEntity: BoredActivityEntity)
 
     @Delete
-    fun deleteActivity(activityEntity: BoredActivityEntity)
+    suspend fun deleteActivity(activityEntity: BoredActivityEntity)
 
     @Query("SELECT EXISTS(SELECT * FROM BoredActivityEntity WHERE `key` = :key)")
-    fun isActivitySaved(key: Long): Boolean
+    suspend fun isActivitySaved(key: Long): Boolean
 }

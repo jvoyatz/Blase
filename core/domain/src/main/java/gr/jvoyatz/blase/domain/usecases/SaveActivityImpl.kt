@@ -11,10 +11,10 @@ internal class SaveActivityImpl(
     private val repository: BoredActivityRepository
 ): SaveActivity {
     override suspend fun invoke(activity: BoredActivity): Flow<ResultWrapper<Unit>> {
-        println("called with activity $activity")
         return repository.saveActivity(activity)
             .map {
                 resultOf { it }
             }
+
     }
 }

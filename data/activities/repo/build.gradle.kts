@@ -30,10 +30,11 @@ android {
 dependencies {
     //modules
     implementation(project(":core:common"))
-    implementation(project(":core:logging"))
+    //implementation(project(":core:logging"))
     implementation(project(":core:domain"))
     implementation(project(":core:network:v1"))
     implementation(project(":core:database"))
+    implementation(libs.timber)
     //dagger-hilt
     implementation(libs.androidx.core.ktx)
     implementation(libs.google.hilt)

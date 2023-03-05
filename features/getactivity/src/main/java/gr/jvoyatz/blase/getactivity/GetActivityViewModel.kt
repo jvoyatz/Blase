@@ -8,14 +8,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import gr.jvoyatz.blase.domain.models.BoredActivity
 import gr.jvoyatz.blase.domain.usecases.ActivitiesUseCasesFacade
 import gr.jvoyatz.blase.domain.usecases.GetRandomActivityUseCase
-import gr.jvoyatz.blase.getactivity.GetActivityUiState.InternalUiState
-import gr.jvoyatz.blase.logging.LogEvent
+import gr.jvoyatz.blase.getactivity.ui.GetActivityIntents
+import gr.jvoyatz.blase.getactivity.ui.state.GetActivityUiState
+import gr.jvoyatz.blase.getactivity.ui.state.GetActivityUiState.InternalUiState
 import gr.jvoyatz.core.common.onError
 import gr.jvoyatz.core.common.onSuccess
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 private const val SAVED_GET_ACTIVITY_UI_STATE = "savedActivityUiState"
@@ -27,26 +30,57 @@ class GetActivityViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ): ViewModel(){
 
-    private val userIntentFlow = MutableSharedFlow<ActivitiesIntent>()
+    private val userIntentFlow = MutableSharedFlow<GetActivityIntents>()
     private val getRandomActivity: GetRandomActivityUseCase = useCasesFacade.getRandomActivity
     val uiState = savedStateHandle.getStateFlow(SAVED_GET_ACTIVITY_UI_STATE, initUiState)
 
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        Timber.d("Handle $exception in CoroutineExceptionHandler")
+    }
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             userIntentFlow.flatMapMerge {
                 mapIntentToUseCase(it)
             }
             .runningFold(uiState.value, ::mapInternalUiStateToExternal)
-            .catch { }
+            .catch {
+                it.printStackTrace()
+            }
             .collect {
                 savedStateHandle[SAVED_GET_ACTIVITY_UI_STATE] = it
             }
         }
 
-
         viewModelScope.launch {
             useCasesFacade.getFavoriteActivities().collect{
-                println("hereeeeee!!!!!!!!!!!!!!!!!!!! $it")
+                Timber.d("collected favorite activities ${it}")
+                it.onSuccess { list ->
+                    for (act: BoredActivity in list){
+                        if(act.key.toInt() % 2 == 0){
+                            useCasesFacade.isActivitySaved(act.key + 999234)
+                                .collect{
+                                    Timber.w("is saved $it")
+                                }
+                        }
+                        useCasesFacade.isActivitySaved(act.key)
+                            .collect{
+                                Timber.w("is saved $it")
+                            }
+                        if(act.key.toInt() % 2 == 0) {
+                            Timber.d("attempting to delete ${act.key}")
+                            useCasesFacade.deleteActivity(act)
+                                .collect{
+                                    it.onSuccess {
+                                        Timber.w("delete ok")
+                                    }
+                                    .onError {
+                                        Timber.e(it)
+                                    }
+                                }
+
+                        }
+                    }
+                }
             }
         }
 //        viewModelScope.launch {
@@ -71,7 +105,7 @@ class GetActivityViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             delay(250)
-            onUserIntent(ActivitiesIntent.GetActivity)
+            onUserIntent(GetActivityIntents.FetchActivity)
         }
     }
 
@@ -79,10 +113,10 @@ class GetActivityViewModel @Inject constructor(
      * Receives the intent of the user and maps it to the corresponding
      * use case.
      */
-    private fun mapIntentToUseCase(intent: ActivitiesIntent): Flow<InternalUiState>{
+    private fun mapIntentToUseCase(intent: GetActivityIntents): Flow<InternalUiState>{
         return when(intent){
-            is ActivitiesIntent.GetActivity -> getNewActivity()
-            is ActivitiesIntent.FavoriteActivity -> flowOf(intent.activity)
+            is GetActivityIntents.FetchActivity -> getNewActivity()
+            is GetActivityIntents.FavoriteActivity -> flowOf(intent.activity)
                 .map { it.toDomainModel() }
                 .flowOn(Dispatchers.Default)
                 .flatMapMerge {
@@ -126,7 +160,7 @@ class GetActivityViewModel @Inject constructor(
     /**
      * Receives an intent which represents a user action
      */
-    fun onUserIntent(intent: ActivitiesIntent){
+    fun onUserIntent(intent: GetActivityIntents){
         Log.d(TAG, "onUserIntent() called with: intent = $intent")
         viewModelScope.launch {
             userIntentFlow.emit(intent)
@@ -137,12 +171,11 @@ class GetActivityViewModel @Inject constructor(
     private fun saveActivity(activity: BoredActivity): Flow<InternalUiState> = flow<InternalUiState> {
         useCasesFacade.saveActivity(activity)
             .collect {
-                println("it $it")
                 it.onSuccess {
-                    LogEvent.d("activity saved!!")
+                    Timber.i("activity saved!!")
                 }
                 .onError { throwable ->
-                    LogEvent.e(throwable,"activity not saved!!")
+                    Timber.e(throwable,"activity not saved!!")
                 }
             }
 
@@ -155,13 +188,17 @@ class GetActivityViewModel @Inject constructor(
      */
     private fun getNewActivity(): Flow<InternalUiState> = flow {
         getRandomActivity()
-            .onStart { emit(InternalUiState.Loading) }
+            .onStart {
+                Timber.d("onStart called!")
+                emit(InternalUiState.Loading)
+            }
             .collect {
-                LogEvent.logThread()
                 it.onSuccess { activity ->
+                    Timber.v("onSuccess called with --> [$activity]")
                     emit(InternalUiState.OnNewActivityFetched(activity))
                 }
                 .onError { _e ->
+                    Timber.v("onError with exception ---> [$_e]")
                     emit(InternalUiState.Error(_e))
                 }
             }

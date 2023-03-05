@@ -11,21 +11,15 @@ import kotlinx.coroutines.flow.flowOn
 internal class BoredDbClientImpl(
     private val dao: BoredActivityDao
 ): BoredDbClient {
-    override suspend fun saveActivity(activityEntity: BoredActivityEntity): Flow<Unit> {
-         return flow<Unit> {
+    override suspend fun saveActivity(activityEntity: BoredActivityEntity) = flow<Unit> {
             dao.saveActivity(activityEntity)
         }.flowOn(Dispatchers.IO)
-    }
 
     override suspend fun deleteActivity(activityEntity: BoredActivityEntity) {
-        TODO("Not yet implemented")
+        dao.deleteActivity(activityEntity)
     }
 
-    override suspend fun isActivitySaved(key: Long): Boolean {
-        TODO("Not yet implemented")
-    }
+    override suspend fun isActivitySaved(key: Long) = dao.isActivitySaved(key)
 
-    override suspend fun getFavoriteActivities(): Flow<List<BoredActivityEntity>> {
-        return dao.getActivities()
-    }
+    override suspend fun getFavoriteActivities() = dao.getActivities()
 }

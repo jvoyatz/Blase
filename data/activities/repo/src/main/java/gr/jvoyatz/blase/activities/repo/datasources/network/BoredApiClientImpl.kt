@@ -11,7 +11,7 @@ class BoredApiClientImpl
     @Inject constructor(private val boredApiService: BoredApiService
 ): BoredApiClient {
 
-    override suspend fun getRandomActivity(): ApiResponse<BoredActivityDto> {
-        return safeSuspendableApiCall { boredApiService.getRandomActivity() }
+    override suspend fun getRandomActivity(): BoredActivityDto {
+        return boredApiService.getRandomActivity()
     }
 }

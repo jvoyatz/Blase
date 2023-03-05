@@ -7,5 +7,5 @@ import gr.jvoyatz.blase.core.network.v1.ApiResponse
  * Wraps the execution of the request for fetching a new activity
  */
 interface BoredApiClient {
-    suspend fun getRandomActivity(): ApiResponse<BoredActivityDto>
+    suspend fun getRandomActivity(): BoredActivityDto
 }
