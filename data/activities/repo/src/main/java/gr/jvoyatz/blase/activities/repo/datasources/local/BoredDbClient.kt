@@ -1,7 +1,6 @@
 package gr.jvoyatz.blase.activities.repo.datasources.local
 
-import gr.jvoyatz.blase.activities.repo.datasources.local.entities.BoredActivityEntity
-import gr.jvoyatz.blase.domain.models.BoredActivity
+import gr.jvoyatz.blase.database.entities.BoredActivityEntity
 import kotlinx.coroutines.flow.Flow
 
 interface BoredDbClient {

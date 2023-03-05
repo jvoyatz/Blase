@@ -1,7 +1,7 @@
-package gr.jvoyatz.blase.activities.repo.datasources.local
+package gr.jvoyatz.blase.database
 
 import androidx.room.*
-import gr.jvoyatz.blase.activities.repo.datasources.local.entities.BoredActivityEntity
+import gr.jvoyatz.blase.database.entities.BoredActivityEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

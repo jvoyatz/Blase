@@ -1,7 +1,6 @@
 package gr.jvoyatz.blase.activities.repo.mapper
 
-import gr.jvoyatz.blase.activities.repo.datasources.local.entities.BoredActivityEntity
-import gr.jvoyatz.blase.activities.repo.datasources.network.dto.BoredActivityDto
+import gr.jvoyatz.blase.database.entities.BoredActivityEntity
 import gr.jvoyatz.blase.domain.models.BoredActivity
 
 object BoredEntityMapper : Mapper<BoredActivityEntity, BoredActivity> {

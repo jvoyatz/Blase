@@ -1,7 +1,7 @@
 package gr.jvoyatz.blase.activities.repo.datasources.local
 
-import gr.jvoyatz.blase.activities.repo.datasources.local.entities.BoredActivityEntity
-import gr.jvoyatz.blase.logging.LogEvent
+import gr.jvoyatz.blase.database.BoredActivityDao
+import gr.jvoyatz.blase.database.entities.BoredActivityEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

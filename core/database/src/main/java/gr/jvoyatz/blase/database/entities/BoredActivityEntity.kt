@@ -1,4 +1,4 @@
-package gr.jvoyatz.blase.activities.repo.datasources.local.entities
+package gr.jvoyatz.blase.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,11 +1,10 @@
-package gr.jvoyatz.blase.activities.repo.datasources.local
+package gr.jvoyatz.blase.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import gr.jvoyatz.blase.activities.repo.datasources.local.entities.BoredActivityEntity
-
+import gr.jvoyatz.blase.database.entities.BoredActivityEntity
 
 private const val DB_VERSION = 1
 @Database(
@@ -18,7 +17,7 @@ abstract class BlaseDatabase: RoomDatabase() {
     companion object{
         private var instance: BlaseDatabase? = null
 
-        fun getDatabase(context: Context):BlaseDatabase {
+        fun getDatabase(context: Context): BlaseDatabase {
             return instance ?: lazy(this) {
                 Room.databaseBuilder(context, BlaseDatabase::class.java, "blase_database").build()
             }.let {
