@@ -1,6 +1,7 @@
 package gr.jvoyatz.blase.domain.repositories
 
 import gr.jvoyatz.blase.domain.models.BoredActivity
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Interface defining the set of methods for
@@ -12,12 +13,12 @@ interface BoredActivityRepository {
     /**
      * Fetches a new activity from the remote service
      */
-    suspend fun getNewActivity(): kotlinx.coroutines.flow.Flow<BoredActivity>
+    suspend fun getNewActivity(): Flow<BoredActivity>
 
     /**
      * Saves a fetched activity into the local database
      */
-    suspend fun saveActivity()
+    suspend fun saveActivity(boredActivity: BoredActivity): Flow<Unit>
 
     /**
      * Deletes an already stored activity
@@ -33,5 +34,5 @@ interface BoredActivityRepository {
     /**
      * Returns a list of the favorite activities
      */
-    suspend fun getFavoriteActivities()
+    suspend fun getFavoriteActivities(): Flow<List<BoredActivity>>
 }

@@ -1,6 +1,7 @@
 package gr.jvoyatz.blase.activities.repo.datasources.network.di
 
 import com.squareup.moshi.Moshi
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,17 +35,17 @@ class ApiModule {
         return retrofit.create(BoredApiService::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun provideBoredApiClient(boredApiService: BoredApiService): BoredApiClient {
-        return BoredApiClientImpl(boredApiService)
-    }
-
-//    @Module
-//    @InstallIn(SingletonComponent::class)
-//    abstract class ApiBindsModule{
-//        @Binds
-//        @Singleton
-//        abstract fun bindBoredApiClient(boredApiClientImpl: BoredApiClientImpl): BoredApiClient
+//    @Singleton
+//    @Provides
+//    fun provideBoredApiClient(boredApiService: BoredApiService): BoredApiClient {
+//        return BoredApiClientImpl(boredApiService)
 //    }
+
+    @Module
+    @InstallIn(SingletonComponent::class)
+    abstract class ApiBindsModule{
+        @Binds
+        @Singleton
+        abstract fun bindBoredApiClient(boredApiClientImpl: BoredApiClientImpl): BoredApiClient
+    }
 }

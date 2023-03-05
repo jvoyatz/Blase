@@ -8,7 +8,7 @@ data class BoredActivityDto(
     @Json(name = "activity")
     val activity: String = "",
     @Json(name = "key")
-    val key: String = "",
+    val key: Long = 0,
     @Json(name = "link")
     val link: String = "",
     @Json(name = "participants")

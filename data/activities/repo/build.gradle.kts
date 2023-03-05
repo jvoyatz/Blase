@@ -40,4 +40,9 @@ dependencies {
     //retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.moshi)
+    //room
+    implementation(libs.room)
+    implementation(libs.room.ktx)
+    annotationProcessor(libs.room.proc)
+    kapt(libs.room.kapt)
 }

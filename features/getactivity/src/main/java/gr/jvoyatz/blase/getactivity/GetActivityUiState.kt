@@ -19,3 +19,6 @@ data class GetActivityUiState(
         data class Error(val throwable: Throwable): InternalUiState
     }
 }
+
+
+fun GetActivityUiState.getOrNull(): BoredActivityUiModel? = newActivity

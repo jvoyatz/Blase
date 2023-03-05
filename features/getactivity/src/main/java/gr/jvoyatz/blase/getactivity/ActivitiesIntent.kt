@@ -12,5 +12,6 @@ sealed interface ActivitiesIntent {
     /**
      * Mark the current activity as favorite
      */
-    data class FavoriteActivity(val key: String): ActivitiesIntent
+    data class FavoriteActivity(val activity: BoredActivityUiModel): ActivitiesIntent
 }
+

@@ -13,7 +13,7 @@ class ActivitiesUseCasesFacade @Inject constructor(
     activityRepository: BoredActivityRepository
 ){
     val getRandomActivity: GetRandomActivityUseCase
-    val getFavoriteActivities: GetFavoriteActivities
+    val getFavoriteActivities: GetFavoriteActivitiesUseCase
     val isActivitySaved: IsActivitySaved
     val saveActivity: SaveActivity
     val deleteActivity: DeleteActivity
@@ -22,12 +22,16 @@ class ActivitiesUseCasesFacade @Inject constructor(
             getRandomActivity(activityRepository)
         }
         deleteActivity = DeleteActivity(activityRepository::deleteActivity)
-        getFavoriteActivities = GetFavoriteActivities {
-            activityRepository.getFavoriteActivities()
+        getFavoriteActivities = GetFavoriteActivitiesUseCase {
+            getFavoriteActivities(activityRepository)
         }
         isActivitySaved = IsActivitySaved {
             activityRepository.isActivitySaved(it)
         }
-        saveActivity = SaveActivity(activityRepository::saveActivity)
+//        saveActivity = SaveActivity{
+//            saveBoredActivity(activityRepository)
+//        }
+
+        saveActivity = SaveActivityImpl(activityRepository)
     }
 }

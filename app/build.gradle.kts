@@ -19,6 +19,15 @@ android {
         versionName = libs.versions.versionName.get()
 
         testInstrumentationRunner = libs.versions.androidTestInstrumentation.get()
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf(
+                    "room.schemaLocation" to "$projectDir/schemas",
+                    "room.incremental" to "true"
+                )
+            }
+        }
     }
 
     compileOptions {

@@ -37,7 +37,11 @@ class GetActivityFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect{
-                    LogEvent.d("state $it")
+                    viewModel.uiState.value.getOrNull()?.let {
+                        viewModel.onUserIntent(
+                            ActivitiesIntent.FavoriteActivity(it)
+                        )
+                    }
                 }
             }
         }
