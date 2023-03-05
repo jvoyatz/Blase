@@ -78,8 +78,8 @@ inline fun <R> resultOf(block: () -> R): ResultWrapper<R> {
 fun <T> Flow<T>.asResult(): Flow<ResultWrapper<T>> =
     this.map {
         resultOf { it }
-    }.onStart {
+    }/*.onStart {
         emit(Loading)
-    }.catch {
+    }*/.catch {
         emit(ResultWrapper.error(it))
     }

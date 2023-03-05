@@ -13,11 +13,8 @@ import gr.jvoyatz.blase.getactivity.ui.state.GetActivityUiState
 import gr.jvoyatz.blase.getactivity.ui.state.GetActivityUiState.InternalUiState
 import gr.jvoyatz.core.common.onError
 import gr.jvoyatz.core.common.onSuccess
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 

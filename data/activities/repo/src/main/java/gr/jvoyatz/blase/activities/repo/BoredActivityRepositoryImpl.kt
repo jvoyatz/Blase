@@ -5,11 +5,11 @@ import gr.jvoyatz.blase.activities.repo.datasources.network.BoredApiClient
 import gr.jvoyatz.blase.activities.repo.mapper.BoredActivityDtoMapper.mapToDomainModel
 import gr.jvoyatz.blase.activities.repo.mapper.BoredEntityMapper.mapFromDomainModel
 import gr.jvoyatz.blase.activities.repo.mapper.BoredEntityMapper.mapToDomainModel
-import gr.jvoyatz.core.common.mapList
 import gr.jvoyatz.blase.domain.models.BoredActivity
 import gr.jvoyatz.blase.domain.models.BoredException
 import gr.jvoyatz.blase.domain.models.FavoriteBoredActivity
 import gr.jvoyatz.blase.domain.repositories.BoredActivityRepository
+import gr.jvoyatz.core.common.mapList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
@@ -19,8 +19,6 @@ class BoredActivityRepositoryImpl(
     private val dbClient: BoredDbClient
 ):BoredActivityRepository{
     override suspend fun getNewActivity(): Flow<FavoriteBoredActivity> {
-        Timber.d("fetching new activity, thread is ${Thread.currentThread()}")
-
         return flow {
             apiClient.getRandomActivity()
                 .mapToDomainModel()
@@ -34,7 +32,6 @@ class BoredActivityRepositoryImpl(
         .flowOn(Dispatchers.IO)
     }
     override suspend fun saveActivity(boredActivity: BoredActivity): Flow<Unit> {
-        Timber.d("saveActivity() called with: boredActivity = " + boredActivity)
         return dbClient.saveActivity(boredActivity.mapFromDomainModel())
     }
 
@@ -55,5 +52,3 @@ class BoredActivityRepositoryImpl(
             }
     }
 }
-
-private const val TAG = "BoredActivityRepository"
