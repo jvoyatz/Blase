@@ -56,23 +56,11 @@ inline fun <T> ResultWrapper<T>.onError(action: (value: Throwable) -> Unit): Res
     return this
 }
 
-
-fun <T> Flow<T>.asResult(): Flow<ResultWrapper<T>> {
-    return this
-    .onStart { ResultWrapper.loading() }
-    .map<T, ResultWrapper<T>> {
-        ResultWrapper.success(it)
-    }.onStart {
-        emit(Loading)
-    }.catch {
-        emit(ResultWrapper.error(it))
-    }
-}
-
-
 /**
  * Better management of exceptions when using coroutines.
  *
+ * Based on these articles:
+ * https://proandroiddev.com/resilient-use-cases-with-kotlin-result-coroutines-and-annotations-511df10e2e16
  * See https://github.com/Kotlin/kotlinx.coroutines/issues/1814.
  */
 inline fun <R> resultOf(block: () -> R): ResultWrapper<R> {
@@ -86,3 +74,12 @@ inline fun <R> resultOf(block: () -> R): ResultWrapper<R> {
         ResultWrapper.error(e)
     }
 }
+
+fun <T> Flow<T>.asResult(): Flow<ResultWrapper<T>> =
+    this.map {
+        resultOf { it }
+    }.onStart {
+        emit(Loading)
+    }.catch {
+        emit(ResultWrapper.error(it))
+    }

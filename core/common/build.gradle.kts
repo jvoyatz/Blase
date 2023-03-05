@@ -10,4 +10,5 @@ java {
 
 dependencies{
     implementation(libs.coroutines)
+    implementation(libs.javax.inject)
 }

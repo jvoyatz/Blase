@@ -1,11 +1,9 @@
 package gr.jvoyatz.blase.domain.usecases
 
 import gr.jvoyatz.blase.domain.repositories.BoredActivityRepository
-import gr.jvoyatz.core.common.ResultWrapper
-import gr.jvoyatz.core.common.resultOf
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
+import gr.jvoyatz.core.common.AppDispatchers
+import gr.jvoyatz.core.common.asResult
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,17 +13,19 @@ import javax.inject.Singleton
  * instead of injecting every single use case into the Dagger
  */
 @Singleton
-class ActivitiesUseCasesFacade @Inject constructor(
-    activityRepository: BoredActivityRepository
+class BoredActivitiesContainer @Inject constructor(
+    activityRepository: BoredActivityRepository,
+    dispatcher: AppDispatchers
 ){
     val getRandomActivity: GetRandomActivityUseCase
     val getFavoriteActivities: GetFavoriteActivitiesUseCase
     val isActivitySaved: IsActivitySaved
     val saveActivity: SaveActivity
     val deleteActivity: DeleteActivityUseCase
+
     init {
         getRandomActivity = GetRandomActivityUseCase {
-            getRandomActivity(activityRepository)
+            activityRepository.getNewActivity().asResult()
         }
         deleteActivity = deleteBoredActivity(activityRepository)
 
@@ -33,13 +33,9 @@ class ActivitiesUseCasesFacade @Inject constructor(
             getFavoriteActivities(activityRepository)
         }
         isActivitySaved = IsActivitySaved {
-            flow<ResultWrapper<Boolean>> {
-                resultOf {
-                    emit(ResultWrapper.success(activityRepository.isActivitySaved(it)))
-                }
-            }
-            .catch { emit(ResultWrapper.error(it)) }
-            .flowOn(Dispatchers.Default)
+            flowOf(activityRepository.isActivitySaved(it))
+                .asResult()
+                .flowOn(dispatcher.io)
         }
 
         saveActivity = SaveActivityImpl(activityRepository)

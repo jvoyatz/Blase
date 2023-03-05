@@ -3,10 +3,8 @@ package gr.jvoyatz.blase.domain.usecases
 import gr.jvoyatz.blase.domain.models.BoredActivity
 import gr.jvoyatz.blase.domain.repositories.BoredActivityRepository
 import gr.jvoyatz.core.common.ResultWrapper
-import gr.jvoyatz.core.common.resultOf
+import gr.jvoyatz.core.common.asResult
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
 
 /**
  * Returns the activities marked as favorite by the user
@@ -14,12 +12,6 @@ import kotlinx.coroutines.flow.map
 fun interface GetFavoriteActivitiesUseCase: suspend () -> Flow<ResultWrapper<List<BoredActivity>>>
 
 
-suspend fun getFavoriteActivities(repository: BoredActivityRepository): Flow<ResultWrapper<List<BoredActivity>>> {
-    return repository.getFavoriteActivities()
-        .map {
-            resultOf { it }
-        }
-        .catch {
-            emit(ResultWrapper.error(it))
-        }
-}
+suspend fun getFavoriteActivities(repository: BoredActivityRepository) =
+    repository.getFavoriteActivities().asResult()
+

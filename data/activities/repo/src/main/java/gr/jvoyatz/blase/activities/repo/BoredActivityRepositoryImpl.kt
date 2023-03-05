@@ -1,12 +1,11 @@
 package gr.jvoyatz.blase.activities.repo
 
-import android.util.Log
 import gr.jvoyatz.blase.activities.repo.datasources.local.BoredDbClient
 import gr.jvoyatz.blase.activities.repo.datasources.network.BoredApiClient
 import gr.jvoyatz.blase.activities.repo.mapper.BoredActivityDtoMapper.mapToDomainModel
 import gr.jvoyatz.blase.activities.repo.mapper.BoredEntityMapper.mapFromDomainModel
 import gr.jvoyatz.blase.activities.repo.mapper.BoredEntityMapper.mapToDomainModel
-import gr.jvoyatz.blase.activities.repo.mapper.mapList
+import gr.jvoyatz.core.common.mapList
 import gr.jvoyatz.blase.domain.models.BoredActivity
 import gr.jvoyatz.blase.domain.models.BoredException
 import gr.jvoyatz.blase.domain.models.FavoriteBoredActivity

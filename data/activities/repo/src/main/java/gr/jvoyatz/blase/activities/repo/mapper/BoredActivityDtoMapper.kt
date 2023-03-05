@@ -2,6 +2,7 @@ package gr.jvoyatz.blase.activities.repo.mapper
 
 import gr.jvoyatz.blase.activities.repo.datasources.network.dto.BoredActivityDto
 import gr.jvoyatz.blase.domain.models.BoredActivity
+import gr.jvoyatz.core.common.Mapper
 
 object BoredActivityDtoMapper : Mapper<BoredActivityDto, BoredActivity> {
 

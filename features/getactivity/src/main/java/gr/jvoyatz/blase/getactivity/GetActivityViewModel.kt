@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gr.jvoyatz.blase.domain.models.BoredActivity
-import gr.jvoyatz.blase.domain.usecases.ActivitiesUseCasesFacade
+import gr.jvoyatz.blase.domain.usecases.BoredActivitiesContainer
 import gr.jvoyatz.blase.domain.usecases.GetRandomActivityUseCase
 import gr.jvoyatz.blase.getactivity.ui.GetActivityIntents
 import gr.jvoyatz.blase.getactivity.ui.state.GetActivityUiState
@@ -25,7 +25,7 @@ private const val SAVED_GET_ACTIVITY_UI_STATE = "savedActivityUiState"
 
 @HiltViewModel
 class GetActivityViewModel @Inject constructor(
-    val useCasesFacade: ActivitiesUseCasesFacade,
+    val useCasesFacade: BoredActivitiesContainer,
     initUiState: GetActivityUiState,
     private val savedStateHandle: SavedStateHandle
 ): ViewModel(){
