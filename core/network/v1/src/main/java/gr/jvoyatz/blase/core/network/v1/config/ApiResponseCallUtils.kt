@@ -7,7 +7,6 @@ import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
 
-
 fun interface ErrorMapper<E>: (ResponseBody?) -> E?
 
 /**
@@ -49,7 +48,6 @@ suspend inline fun <reified S, reified E> safeApiCall(
     errorMapper: ErrorMapper<E> = ErrorMapper<E> { responseBody -> convertBody(E::class.java, responseBody) },
     crossinline execute: suspend () -> Response<S>): ApiResponse<S, E> {
     return try {
-        Timber.d("current thread ${Thread.currentThread()}")
         val response = execute()
 
         if(response != null && response.isSuccessful) {
@@ -63,10 +61,8 @@ suspend inline fun <reified S, reified E> safeApiCall(
                 ApiResponse.unknownError(null)
             }
         }else {
-            ApiResponse.httpError(code = response?.code(), errorMapper(response?.errorBody()))
+            ApiResponse.httpError(code = response.code(), errorMapper(response.errorBody()))
         }
-    } catch (e: HttpException) {
-        ApiResponse.httpError(e.code(), errorMapper(e.response()?.errorBody()))
     } catch (e: IOException) {
         ApiResponse.networkError(e)
     } catch (e: Exception){
@@ -85,6 +81,7 @@ suspend inline fun <reified S, reified E> safeApiCall(
             }
         }
     }catch (e: Exception){
+        e.printStackTrace()
         null
     }
 }

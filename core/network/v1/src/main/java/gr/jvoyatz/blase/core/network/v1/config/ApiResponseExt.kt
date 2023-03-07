@@ -37,7 +37,7 @@ fun <S, E> ApiResponse<S, E>.asUnknownError(): gr.jvoyatz.blase.core.network.v1.
 }
 
 fun<S, E> ApiResponse<S, E>.isSuccess() = this is ApiSuccess
-fun<S, E> ApiResponse<S, E>.isSuccessEmpty() = (this is ApiSuccess) && this.body == null
+fun<S, E> ApiResponse<S, E>.isSuccessEmpty() = (this is ApiSuccess) && this.body === Unit
 fun<S, E> ApiResponse<S, E>.isError() = this is Error
 
 fun<S, E> ApiResponse<S, E>.getOrNull(): S? {
