@@ -1,48 +1,48 @@
-package gr.jvoyatz.blase.activities.repo.datasources.network
+package gr.jvoyatz.blase.core.network.v1.config
 
 
-fun <S, E> ApiResponseV2<S, E>.asSuccess():Success<S, E>?{
-    if(this is Success){
+fun <S, E> ApiResponse<S, E>.asSuccess(): ApiSuccess<S, E>?{
+    if(this is ApiSuccess){
         return this
     }
     return null
 }
 
-fun <S, E> ApiResponseV2<S, E>.asError(): Error<S, E>?{
-    if(this is Error){
+fun <S, E> ApiResponse<S, E>.asError(): ApiError<S, E>?{
+    if(this is ApiError){
         return this
     }
     return null
 }
 
-fun <S, E> ApiResponseV2<S, E>.asHttpError(): HttpError<S, E>?{
+fun <S, E> ApiResponse<S, E>.asHttpError(): HttpError<S, E>?{
     if(this is HttpError){
         return this
     }
     return null
 }
 
-fun <S, E> ApiResponseV2<S, E>.asNetworkError(): NetworkError<S, E>?{
+fun <S, E> ApiResponse<S, E>.asNetworkError(): NetworkError<S, E>?{
     if(this is NetworkError){
         return this
     }
     return null
 }
 
-fun <S, E> ApiResponseV2<S, E>.asUnknownError(): UnknownError<S, E>?{
-    if(this is UnknownError){
+fun <S, E> ApiResponse<S, E>.asUnknownError(): gr.jvoyatz.blase.core.network.v1.config.UnknownError<S, E>?{
+    if(this is gr.jvoyatz.blase.core.network.v1.config.UnknownError){
         return this
     }
     return null
 }
 
-fun<S, E> ApiResponseV2<S, E>.isSuccess() = this is Success
-fun<S, E> ApiResponseV2<S, E>.isSuccessEmpty() = (this is Success) && this.body == null
-fun<S, E> ApiResponseV2<S, E>.isError() = this is Error
+fun<S, E> ApiResponse<S, E>.isSuccess() = this is ApiSuccess
+fun<S, E> ApiResponse<S, E>.isSuccessEmpty() = (this is ApiSuccess) && this.body == null
+fun<S, E> ApiResponse<S, E>.isError() = this is Error
 
-fun<S, E> ApiResponseV2<S, E>.getOrNull(): S? {
+fun<S, E> ApiResponse<S, E>.getOrNull(): S? {
     return when (this) {
-        is Success -> this.body
+        is ApiSuccess -> this.body
         else -> null
     }
 }
@@ -51,10 +51,10 @@ fun<S, E> ApiResponseV2<S, E>.getOrNull(): S? {
  * applies the given function, if network response
  * state is Success
  */
-inline fun <S, E> ApiResponseV2<S, E>.onSuccess(
+inline fun <S, E> ApiResponse<S, E>.onSuccess(
     crossinline onResult: S.() -> Unit
-): ApiResponseV2<S, E> {
-    if (this is Success) {
+): ApiResponse<S, E> {
+    if (this is ApiSuccess) {
         onResult(this.body)
     }
     return this
@@ -64,28 +64,28 @@ inline fun <S, E> ApiResponseV2<S, E>.onSuccess(
 // * applies the given function in case of successful response,
 // * however it is transforming the body into another type
 // */
-//inline fun <S, E, V> ApiResponseV2<S, E>.onSuccess(
+//inline fun <S, E, V> ApiResponse<S, E>.onSuccess(
 //    mapper: (S) -> V,
 //    crossinline onResult: V.() -> Unit
-//): ApiResponseV2<S, E> {
+//): ApiResponse<S, E> {
 //    if (this is Success) {
 //        onResult(mapper(this.body))
 //    }
 //    return this
 //}
 //
-//suspend inline fun <S, E> ApiResponseV2<S, E>.onSuspendedSuccess(
+//suspend inline fun <S, E> ApiResponse<S, E>.onSuspendedSuccess(
 //    crossinline onResult: suspend S.() -> Unit
-//): ApiResponseV2<S, E> {
+//): ApiResponse<S, E> {
 //    if (this is Success) {
 //        onResult(this.body)
 //    }
 //    return this
 //}
-//suspend inline fun <S, E, V> ApiResponseV2<S, E>.onSuspendedSuccess(
+//suspend inline fun <S, E, V> ApiResponse<S, E>.onSuspendedSuccess(
 //    mapper: (S) -> V,
 //    crossinline onResult: suspend V.() -> Unit
-//): ApiResponseV2<S, E> {
+//): ApiResponse<S, E> {
 //    if (this is Success) {
 //        onResult(mapper(this.body))
 //    }
@@ -97,18 +97,18 @@ inline fun <S, E> ApiResponseV2<S, E>.onSuccess(
  * applies the given function, if network response
  * state is Success
  */
-//inline fun <S, E> ApiResponseV2<S, E>.onError(
+//inline fun <S, E> ApiResponse<S, E>.onError(
 //    crossinline onResult:  Error<T>.() -> Unit
-//): ApiResponseV2<S, E> {
+//): ApiResponse<S, E> {
 //    if (this is Error) {
 //        onResult(this)
 //    }
 //    return this
 //}
 //
-//suspend inline fun <S, E> ApiResponseV2<S, E>.onSuspendedError(
+//suspend inline fun <S, E> ApiResponse<S, E>.onSuspendedError(
 //    crossinline onResult: suspend Error<T>.() -> Unit
-//): ApiResponseV2<S, E> {
+//): ApiResponse<S, E> {
 //    if (this is Error) {
 //        onResult(this)
 //    }
@@ -119,18 +119,18 @@ inline fun <S, E> ApiResponseV2<S, E>.onSuccess(
 // * applies the given function, if network response
 // * state is Success
 // */
-//inline fun <S, E> ApiResponseV2<S, E>.onHttpError(
+//inline fun <S, E> ApiResponse<S, E>.onHttpError(
 //    crossinline onResult:  Error.HttpError<T>.() -> Unit
-//): ApiResponseV2<S, E> {
+//): ApiResponse<S, E> {
 //    if (this is Error.HttpError) {
 //        onResult(this)
 //    }
 //    return this
 //}
 //
-//suspend inline fun <S, E> ApiResponseV2<S, E>.onSuspendedHttpError(
+//suspend inline fun <S, E> ApiResponse<S, E>.onSuspendedHttpError(
 //    crossinline onResult: suspend Error.HttpError<T>.() -> Unit
-//): ApiResponseV2<S, E> {
+//): ApiResponse<S, E> {
 //    if (this is Error.HttpError) {
 //        onResult(this)
 //    }
@@ -141,18 +141,18 @@ inline fun <S, E> ApiResponseV2<S, E>.onSuccess(
 // * applies the given function, if network response
 // * state is Success
 // */
-//inline fun <S, E> ApiResponseV2<S, E>.onNetworkError(
+//inline fun <S, E> ApiResponse<S, E>.onNetworkError(
 //    crossinline onResult:  Error.NetworkError<T>.() -> Unit
-//): ApiResponseV2<S, E> {
+//): ApiResponse<S, E> {
 //    if (this is Error.NetworkError) {
 //        onResult(this)
 //    }
 //    return this
 //}
 //
-//suspend inline fun <S, E> ApiResponseV2<S, E>.onSuspendedNetworkError(
+//suspend inline fun <S, E> ApiResponse<S, E>.onSuspendedNetworkError(
 //    crossinline onResult: suspend Error.NetworkError<T>.() -> Unit
-//): ApiResponseV2<S, E> {
+//): ApiResponse<S, E> {
 //    if (this is Error.NetworkError) {
 //        onResult(this)
 //    }
@@ -163,25 +163,25 @@ inline fun <S, E> ApiResponseV2<S, E>.onSuccess(
 // * applies the given function, if network response
 // * state is Success
 // */
-//inline fun <S, E> ApiResponseV2<S, E>.onUnknownError(
+//inline fun <S, E> ApiResponse<S, E>.onUnknownError(
 //    crossinline onResult:  Error.UnknownError<T>.() -> Unit
-//): ApiResponseV2<S, E> {
+//): ApiResponse<S, E> {
 //    if (this is Error.UnknownError) {
 //        onResult(this)
 //    }
 //    return this
 //}
 //
-//suspend inline fun <S, E> ApiResponseV2<S, E>.onSuspendedUnknownError(
+//suspend inline fun <S, E> ApiResponse<S, E>.onSuspendedUnknownError(
 //    crossinline onResult: suspend Error.UnknownError<T>.() -> Unit
-//): ApiResponseV2<S, E> {
+//): ApiResponse<S, E> {
 //    if (this is Error.UnknownError) {
 //        onResult(this)
 //    }
 //    return this
 //}
 //
-//inline fun<S, E> ApiResponseV2<S, E>.toFlow(): Flow<T>{
+//inline fun<S, E> ApiResponse<S, E>.toFlow(): Flow<T>{
 //    return if(this is Success){
 //        flowOf(this.body)
 //    }else{
@@ -189,7 +189,7 @@ inline fun <S, E> ApiResponseV2<S, E>.onSuccess(
 //    }
 //}
 //
-//inline fun <T: Any, R> ApiResponseV2<S, E>.toFlow(
+//inline fun <T: Any, R> ApiResponse<S, E>.toFlow(
 //    crossinline transformer: T.() -> R
 //): Flow<R>{
 //    return if(this is Success){
@@ -198,7 +198,7 @@ inline fun <S, E> ApiResponseV2<S, E>.onSuccess(
 //        emptyFlow()
 //    }
 //}
-//suspend inline fun <T: Any, R> ApiResponseV2<S, E>.toSuspendFlow(
+//suspend inline fun <T: Any, R> ApiResponse<S, E>.toSuspendFlow(
 //    crossinline transformer: suspend T.() -> R
 //): Flow<R>{
 //    return if(this is Success){

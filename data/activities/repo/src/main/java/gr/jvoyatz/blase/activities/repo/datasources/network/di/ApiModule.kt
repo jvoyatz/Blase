@@ -7,8 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import gr.jvoyatz.blase.activities.repo.datasources.network.*
-import gr.jvoyatz.blase.activities.repo.datasources.network.adapter.NetworkResultCallAdapterFactory
 import gr.jvoyatz.blase.activities.repo.datasources.network.api.BoredApiService
+import gr.jvoyatz.blase.core.network.v1.config.ApiResponseCallAdapterFactory
 import gr.jvoyatz.blase.data.activities.repo.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -21,21 +21,19 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit{
-        return Retrofit.Builder()
+    fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit =
+        Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.BORED_API_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-           // .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
-            .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
-    }
+
 
     @Singleton
     @Provides
-    fun provideBoredApiService(retrofit: Retrofit): BoredApiService {
-        return retrofit.create(BoredApiService::class.java)
-    }
+    fun provideBoredApiService(retrofit: Retrofit): BoredApiService =
+        retrofit.create(BoredApiService::class.java)
 
     @Module
     @InstallIn(SingletonComponent::class)

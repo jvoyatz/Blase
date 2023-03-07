@@ -1,8 +1,5 @@
-package gr.jvoyatz.blase.activities.repo.datasources.network.adapter
+package gr.jvoyatz.blase.core.network.v1.config
 
-
-import retrofit2.HttpException
-import retrofit2.Response
 
 /**
  * It represents the state of the Retrofit response.
@@ -30,7 +27,7 @@ sealed interface ApiResponse<S, E>{
         fun <S, E> httpError(code: Int? = null, errorBody: E? = null): ApiResponse<S, E> = HttpError(code, errorBody)
         fun <S, E> unknownError(throwable: Throwable? = null): ApiResponse<S, E> = UnknownError(throwable)
         fun <S, E> networkError(throwable: Throwable? = null): ApiResponse<S, E> = NetworkError(throwable)
-        fun <S, E> success(body: S): ApiResponse<S, E> = Success(body)
+        fun <S, E> success(body: S): ApiResponse<S, E> = ApiSuccess(body)
     }
 }
 
@@ -38,24 +35,24 @@ sealed interface ApiResponse<S, E>{
  * Successful response with data
  * In case where data are not available, then declare the S as Unit or VoidResponse
  */
-data class Success<S, E>(val body: S): ApiResponse<S, E>
+data class ApiSuccess<S, E>(val body: S): ApiResponse<S, E>
 
 /**
  * sealed interface for Error
  */
-sealed interface Error<S, E> : ApiResponse<S, E>
+sealed interface ApiError<S, E> : ApiResponse<S, E>
 
 /**
  * Received a response with an error
  */
-data class HttpError<S, E>(val code: Int?, val errorBody: E?): Error<S, E>
+data class HttpError<S, E>(val code: Int?, val errorBody: E?): ApiError<S, E>
 
 /**
  * Network error, IO Exception
  */
-data class NetworkError<S, E>(val error: Throwable?): Error<S, E>
+data class NetworkError<S, E>(val error: Throwable?): ApiError<S, E>
 
 /**
  * Unknown Error during request
  */
-data class UnknownError<S, E>(val error: Throwable?): Error<S, E>
+data class UnknownError<S, E>(val error: Throwable?): ApiError<S, E>

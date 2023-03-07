@@ -1,6 +1,5 @@
-package gr.jvoyatz.blase.activities.repo.datasources.network.adapter
+package gr.jvoyatz.blase.core.network.v1.config
 
-import gr.jvoyatz.blase.activities.repo.datasources.network.Success
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.HttpException
@@ -70,7 +69,7 @@ private fun <S, E> parseSuccessfulResponse(
 
     if (successType === Unit::class.java) {
         @Suppress("UNCHECKED_CAST")
-        return Success<Unit, E>(Unit) as ApiResponse<S, E>
+        return ApiSuccess<Unit, E>(Unit) as ApiResponse<S, E>
     }
 
     return ApiResponse.httpError(response.code(), null)

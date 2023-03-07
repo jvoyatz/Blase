@@ -1,11 +1,6 @@
-package gr.jvoyatz.blase.activities.repo.datasources.network
+package gr.jvoyatz.blase.core.network.v1.config
 
-import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.Moshi
-import gr.jvoyatz.blase.activities.repo.datasources.network.adapter.ApiResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
