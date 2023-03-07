@@ -52,10 +52,6 @@ class GetActivityViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            delay(10000)
-            Timber.d("is fasdfadf ")
-        }
-        viewModelScope.launch {
             useCasesFacade.getFavoriteActivities().collect{
                 Timber.d("collected favorite activities ${it}")
                 it.onSuccess { list ->

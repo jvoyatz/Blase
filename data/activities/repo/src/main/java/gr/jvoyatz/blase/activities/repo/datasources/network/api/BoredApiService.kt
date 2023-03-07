@@ -1,10 +1,15 @@
 package gr.jvoyatz.blase.activities.repo.datasources.network.api
 
+import gr.jvoyatz.blase.activities.repo.datasources.network.adapter.ApiResponse
 import gr.jvoyatz.blase.activities.repo.datasources.network.dto.BoredActivityDto
 import retrofit2.Response
 import retrofit2.http.GET
 
 interface BoredApiService {
-    @GET("activity")
-    suspend fun getRandomActivity(): BoredActivityDto
+
+    @GET("activity2")
+    suspend fun getRandomActivity2(): ApiResponse<BoredActivityDto, Unit>
+
+    @GET("activity1")
+    suspend fun getRandomActivity(): Response<BoredActivityDto>
 }

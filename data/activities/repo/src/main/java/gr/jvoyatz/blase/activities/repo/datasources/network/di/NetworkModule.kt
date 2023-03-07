@@ -1,4 +1,4 @@
-package gr.jvoyatz.blase.core.network.v1.di
+package gr.jvoyatz.blase.activities.repo.datasources.network.di
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import gr.jvoyatz.blase.core.network.v1.interceptors.CustomLoggingInterceptor
+import gr.jvoyatz.blase.activities.repo.datasources.network.interceptors.CustomLoggingInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton

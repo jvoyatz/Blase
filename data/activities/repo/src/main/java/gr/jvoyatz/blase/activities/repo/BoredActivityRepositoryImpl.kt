@@ -8,6 +8,7 @@ import gr.jvoyatz.blase.domain.models.BoredActivity
 import gr.jvoyatz.blase.domain.models.FavorableBoredActivity
 import gr.jvoyatz.blase.domain.repositories.BoredActivityRepository
 import gr.jvoyatz.core.common.mapList
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 
@@ -19,13 +20,18 @@ class BoredActivityRepositoryImpl(
         return flow<FavorableBoredActivity> {
 
             Timber.d("test before")
-            val boredactivity = apiClient.getRandomActivity2()
+            val boredactivity = try {
+            apiClient.getRandomActivity2()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
             Timber.d("test after, result --> result %s", boredactivity)
 
-        }.flatMapConcat {
+        }.flatMapConcat<FavorableBoredActivity, FavorableBoredActivity> {
             emptyFlow()
         }
+        .flowOn(Dispatchers.IO)
 //        return flow {
 ////            apiClient.getRandomActivity()
 ////                .mapToDomainModel()

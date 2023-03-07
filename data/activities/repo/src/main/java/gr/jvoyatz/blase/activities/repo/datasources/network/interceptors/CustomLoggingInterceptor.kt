@@ -1,4 +1,4 @@
-package gr.jvoyatz.blase.core.network.v1.interceptors
+package gr.jvoyatz.blase.activities.repo.datasources.network.interceptors
 
 import okhttp3.Interceptor
 import okhttp3.Response
