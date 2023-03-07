@@ -44,4 +44,5 @@ dependencies {
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     testImplementation ("com.google.truth:truth:1.1.3")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
 }
