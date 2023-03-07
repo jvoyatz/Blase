@@ -28,7 +28,7 @@ class NetworkUtilsTest{
 
         Truth.assertThat(response).isNotNull()
         Truth.assertThat(response.isSuccess()).isTrue()
-        Truth.assertThat(response.asSuccess()!!.response).isEqualTo(body)
+        Truth.assertThat(response.asSuccess()!!.body).isEqualTo(body)
     }
 
     @Test
@@ -71,7 +71,7 @@ class NetworkUtilsTest{
         }
 
         //then
-        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.ApiError.HttpError::class.java)
+        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.Error.HttpError::class.java)
         Truth.assertThat(errorResponse.asHttpError()!!.code).isEqualTo(400)
     }
 
@@ -88,7 +88,7 @@ class NetworkUtilsTest{
         }
 
         //then
-        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.ApiError.NetworkError::class.java)
+        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.Error.NetworkError::class.java)
         Truth.assertThat(errorResponse.asNetworkError()!!.io).isInstanceOf(IOException::class.java)
     }
 
@@ -104,7 +104,7 @@ class NetworkUtilsTest{
         }
 
         //then
-        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.ApiError.UnknownError::class.java)
+        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.Error.UnknownError::class.java)
         Truth.assertThat(errorResponse.asUnknownError()!!.error).isInstanceOf(IllegalStateException::class.java)
     }
 
@@ -114,13 +114,13 @@ class NetworkUtilsTest{
         val body = RetrofitMockData.RESPONSE
 
         //when
-        val response = safeRawApiCall {
+        val response = safeApiCall {
             body
         }
 
         Truth.assertThat(response).isNotNull()
         Truth.assertThat(response.isSuccess()).isTrue()
-        Truth.assertThat(response.asSuccess()!!.response).isEqualTo(body)
+        Truth.assertThat(response.asSuccess()!!.body).isEqualTo(body)
     }
 
     @Test
@@ -129,7 +129,7 @@ class NetworkUtilsTest{
         val body = null
 
         //when
-        val response = safeRawApiCall {
+        val response = safeApiCall {
             body
         }
 
@@ -145,7 +145,7 @@ class NetworkUtilsTest{
         val body = Unit
 
         //when
-        val response = safeRawApiCall {
+        val response = safeApiCall {
             body
         }
 
@@ -161,12 +161,12 @@ class NetworkUtilsTest{
         val error = Response.error<Any>(400, body)
 
         //when
-        val errorResponse = safeRawApiCall {
+        val errorResponse = safeApiCall {
             throw HttpException(error)
         }
 
         //then
-        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.ApiError.HttpError::class.java)
+        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.Error.HttpError::class.java)
         Truth.assertThat(errorResponse.asHttpError()!!.code).isEqualTo(400)
     }
 
@@ -177,12 +177,12 @@ class NetworkUtilsTest{
         val body = null
 
         //when
-        val errorResponse = safeRawApiCall {
+        val errorResponse = safeApiCall {
             throw IOException("io exception ")
         }
 
         //then
-        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.ApiError.NetworkError::class.java)
+        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.Error.NetworkError::class.java)
         Truth.assertThat(errorResponse.asNetworkError()!!.io).isInstanceOf(IOException::class.java)
     }
 
@@ -192,12 +192,12 @@ class NetworkUtilsTest{
         val body = RetrofitMockData.RESPONSE
 
         //when
-        val errorResponse = safeRawApiCall {
+        val errorResponse = safeApiCall {
             throw IllegalStateException("test exception")
         }
 
         //then
-        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.ApiError.UnknownError::class.java)
+        Truth.assertThat(errorResponse).isInstanceOf(ApiResponse.Error.UnknownError::class.java)
         Truth.assertThat(errorResponse.asUnknownError()!!.error).isInstanceOf(IllegalStateException::class.java)
     }
 }

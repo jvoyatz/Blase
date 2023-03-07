@@ -6,9 +6,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import gr.jvoyatz.blase.activities.repo.datasources.network.BoredApiClient
-import gr.jvoyatz.blase.activities.repo.datasources.network.BoredApiClientImpl
+import gr.jvoyatz.blase.activities.repo.datasources.network.*
 import gr.jvoyatz.blase.activities.repo.datasources.network.api.BoredApiService
+import gr.jvoyatz.blase.core.network.v1.adapter.ApiResponseCallAdapterFactory
+import gr.jvoyatz.blase.core.network.v1.utils.RetrofitErrorResponseMapper
+import gr.jvoyatz.blase.core.network.v1.utils.RetrofitErrorResponseMapperImpl
 import gr.jvoyatz.blase.data.activities.repo.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -26,6 +28,7 @@ class ApiModule {
             .client(okHttpClient)
             .baseUrl(BuildConfig.BORED_API_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
     }
 
@@ -41,5 +44,9 @@ class ApiModule {
         @Binds
         @Singleton
         abstract fun bindBoredApiClient(boredApiClientImpl: BoredApiClientImpl): BoredApiClient
+
+        @Binds
+        @Singleton
+        abstract fun bindRetrofitErrorResponseMapper(impl: RetrofitErrorResponseMapperImpl): RetrofitErrorResponseMapper
     }
 }

@@ -1,18 +1,17 @@
 package gr.jvoyatz.blase.getactivity
 
-import android.util.Log
 import gr.jvoyatz.blase.domain.models.BoredActivity
-import gr.jvoyatz.blase.domain.models.FavoriteBoredActivity
+import gr.jvoyatz.blase.domain.models.FavorableBoredActivity
 import gr.jvoyatz.blase.getactivity.ui.models.BoredActivityUiModel
 import gr.jvoyatz.blase.getactivity.ui.models.FavoriteBoredActivityUiModel
 
-fun FavoriteBoredActivity.toUiModel () = FavoriteBoredActivityUiModel(
+fun FavorableBoredActivity.toUiModel () = FavoriteBoredActivityUiModel(
     this.isFavorite,
     this.boredActivity.toUiModel()
 )
 
-fun FavoriteBoredActivityUiModel.toDomainModel (): FavoriteBoredActivity {
-    return FavoriteBoredActivity(
+fun FavoriteBoredActivityUiModel.toDomainModel (): FavorableBoredActivity {
+    return FavorableBoredActivity(
        this.isFavorite,
         boredActivityUiModel.toDomainModel()
     )

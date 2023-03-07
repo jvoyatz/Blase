@@ -1,7 +1,7 @@
 package gr.jvoyatz.blase.domain.repositories
 
 import gr.jvoyatz.blase.domain.models.BoredActivity
-import gr.jvoyatz.blase.domain.models.FavoriteBoredActivity
+import gr.jvoyatz.blase.domain.models.FavorableBoredActivity
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -14,7 +14,7 @@ interface BoredActivityRepository {
     /**
      * Fetches a new activity from the remote service
      */
-    suspend fun getNewActivity(): Flow<FavoriteBoredActivity>
+    suspend fun getNewActivity(): Flow<FavorableBoredActivity>
 
     /**
      * Saves a fetched activity into the local database

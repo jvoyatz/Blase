@@ -10,7 +10,10 @@ internal class CustomLoggingInterceptor : Interceptor {
         val originalRequest = chain.request()
 
         val request = originalRequest.newBuilder().url(originalRequest.url).build()
-        Timber.i("$request")
-        return chain.proceed(request)
+        Timber.w("Request [$request]")
+
+        return chain.proceed(request).also {
+            Timber.w("Response [$it]")
+        }
     }
 }
